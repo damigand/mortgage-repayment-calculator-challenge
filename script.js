@@ -1,60 +1,60 @@
-const repaymentDiv = document.querySelector('.repayment');
-const interestDiv = document.querySelector('.interest-only');
+const repaymentDiv = document.querySelector(".repayment");
+const interestDiv = document.querySelector(".interest-only");
 
-repaymentDiv.addEventListener('click', (event) => {
+repaymentDiv.addEventListener("click", (event) => {
     const radio = repaymentDiv.childNodes[1];
     radio.checked = true;
 });
 
-interestDiv.addEventListener('click', (event) => {
+interestDiv.addEventListener("click", (event) => {
     const radio = interestDiv.childNodes[1];
     radio.checked = true;
 });
 
-const submitButton = document.querySelector('#submit');
-submitButton.addEventListener('click', () => checkForm());
+const submitButton = document.querySelector("#submit");
+submitButton.addEventListener("click", () => checkForm());
 
-const resetForm = document.querySelector('.reset');
-const form = document.querySelector('#form');
+const resetForm = document.querySelector(".reset");
+const form = document.querySelector("#form");
 
-resetForm.addEventListener('click', (event) => {
+resetForm.addEventListener("click", (event) => {
     form.reset();
 });
 
 function checkForm() {
     var errorState = false;
 
-    const amountDiv = document.querySelector('.amount-input');
-    const amountValue = document.querySelector('#amount').value;
+    const amountDiv = document.querySelector(".amount-input");
+    const amountValue = document.querySelector("#amount").value;
 
     if (amountValue) {
-        amountDiv.classList.remove('active');
+        amountDiv.classList.remove("active");
     } else {
-        amountDiv.classList.add('active');
+        amountDiv.classList.add("active");
         errorState = true;
     }
 
-    const mortgageDiv = document.querySelector('.term-input');
-    const mortgageTermValue = document.querySelector('#term').value;
+    const mortgageDiv = document.querySelector(".term-input");
+    const mortgageTermValue = document.querySelector("#term").value;
 
     if (mortgageTermValue) {
-        mortgageDiv.classList.remove('active');
+        mortgageDiv.classList.remove("active");
     } else {
-        mortgageDiv.classList.add('active');
+        mortgageDiv.classList.add("active");
         errorState = true;
     }
 
-    const interestDiv = document.querySelector('.interest-input');
-    const interestRateValue = document.querySelector('#interest').value;
+    const interestDiv = document.querySelector(".interest-input");
+    const interestRateValue = document.querySelector("#interest").value;
 
     if (interestRateValue) {
-        interestDiv.classList.remove('active');
+        interestDiv.classList.remove("active");
     } else {
-        interestDiv.classList.add('active');
+        interestDiv.classList.add("active");
         errorState = true;
     }
 
-    const mortgageTypeDiv = document.querySelector('.mortgage-type');
+    const mortgageTypeDiv = document.querySelector(".mortgage-type");
     const mortgageType = document.querySelector(".mortgage-type input[type='radio']:checked");
 
     var type;
@@ -62,9 +62,9 @@ function checkForm() {
     if (mortgageType) {
         type = mortgageType.id;
 
-        mortgageTypeDiv.classList.remove('active');
+        mortgageTypeDiv.classList.remove("active");
     } else {
-        mortgageTypeDiv.classList.add('active');
+        mortgageTypeDiv.classList.add("active");
         errorState = true;
     }
 
@@ -84,14 +84,53 @@ function calculateMortgage(amount, term, interest, type) {
     const p = term * 12;
     const b = Math.pow(1 + i, p);
 
-    const monthlyPayment = amount * ((i * b) / (b - 1));
-    const totalPayment = (monthlyPayment * p).toFixed(2);
+    const monthlyNumber = amount * ((i * b) / (b - 1));
+    const totalNumber = (monthlyNumber * p).toFixed(2);
 
     switch (type) {
-        case 'repayment':
-            console.log(totalPayment, monthlyPayment);
+        case "repayment":
+            paintTotal(monthlyNumber, totalNumber);
             break;
-        case 'interest-only':
-            console.log(monthlyPayment);
+        case "interest-only":
+            const totalInterest = totalNumber - amount;
+            const monthlyInterest = totalInterest / p;
+            paintTotal(monthlyInterest, totalInterest, true);
     }
+}
+
+function paintTotal(monthly, total, interestOnly = false) {
+    const formatter = new Intl.NumberFormat("es-ES", {
+        style: "currency",
+        currency: "EUR",
+    });
+
+    const monthlyPayment = formatter.format(monthly);
+    const totalPayment = formatter.format(total);
+
+    const result = document.querySelector(".result-section");
+    result.innerHTML = `
+        <div class="result">
+            <h2>Your results</h2>
+            <span>
+                Your results are shown below based on the information you provided. To
+                adjust the results, edit the form and click “calculate repayments” again.
+            </span>
+            <div class="final-result">
+                <span class="text">Your monthly repayments</span>
+                <span class="number-monthly">${monthlyPayment}</span>
+                <div class="separator"></div>
+                <span class="text">Total you'll repay over the term</span>
+                <span class="number-total">${totalPayment}</span>
+                ${
+                    interestOnly
+                        ? `
+                    <span class="warning">
+                        * This is just the interest, you'll still have to pay the initial amount after.
+                    </span>
+                    `
+                        : ``
+                }
+            </div>
+        </div>
+    `;
 }
