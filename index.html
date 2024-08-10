@@ -12,15 +12,16 @@
             <div class="form-section">
                 <div class="title">
                     <h1>Mortgage Calculator</h1>
-                    <span>Clear All</span>
+                    <span class="reset">Clear All</span>
                 </div>
-                <form>
+                <form id="form">
                     <div class="amount">
                         <label for="amount">Mortgage Amount</label>
                         <div class="amount-input">
-                            <span class="euro">€</span>
+                            <span class="currency">€</span>
                             <input type="number" name="amount" id="amount" />
                         </div>
+                        <span class="error">This field is required</span>
                     </div>
                     <div class="details">
                         <div class="mortgage-term">
@@ -29,6 +30,7 @@
                                 <input type="number" name="term" id="term" />
                                 <span>years</span>
                             </div>
+                            <span class="error">This field is required</span>
                         </div>
                         <div class="interest-rate">
                             <label for="interest">Interest Rate</label>
@@ -36,6 +38,7 @@
                                 <input type="number" name="interest" id="interest" />
                                 <span>%</span>
                             </div>
+                            <span class="error">This field is required</span>
                         </div>
                     </div>
                     <div class="mortgage-type">
@@ -48,8 +51,9 @@
                             <input type="radio" name="mortgage-type" id="interest-only" />
                             <label for="interest-only">Interest Only</label>
                         </div>
+                        <span class="error">This field is required</span>
                     </div>
-                    <button class="calculate-button">
+                    <button type="button" class="calculate-button" id="submit">
                         <img src="assets/images/icon-calculator.svg" alt="calculator icon" />
                         <span>Calculate Repayments</span>
                     </button>
@@ -59,10 +63,7 @@
                 <div class="empty">
                     <img src="assets/images/illustration-empty.svg" alt="empty illustration" />
                     <h2>Results shown here</h2>
-                    <span
-                        >Complete the form and click “calculate repayments” to see what your monthly
-                        repayments would be.</span
-                    >
+                    <span>Complete the form and click “calculate repayments” to see what your monthly repayments would be.</span>
                 </div>
 
                 <!-- <div class="result">
