@@ -6,10 +6,11 @@
     --white: hsl(0, 0%, 100%);
     --slate-100: hsl(202, 86%, 94%);
     --slate-300: hsl(203, 41%, 72%);
-    --slate-500: hsl(200, 26%, 54%);
+    --slate-500: rgb(107, 148, 168);
     --slate-700: hsl(200, 24%, 40%);
     --slate-900: hsl(202, 55%, 16%);
     --slate-dark: hsl(202, 53%, 13%);
+    --outline-color: rgba(107, 148, 168, 0.8);
 
     --font: "Plus Jakarta Sans", sans;
 
@@ -119,7 +120,7 @@ label {
 div[class*="-input"] {
     display: flex;
     align-items: center;
-    border: 1px solid rgba(from var(--slate-500) r g b / 0.8);
+    border: 1px solid var(--outline-color);
     border-radius: 4px;
     width: 100%;
     gap: var(--spacing-10);
@@ -189,7 +190,7 @@ input[type="radio"]:checked:after {
     align-items: center;
     gap: var(--spacing-16);
     height: 50px;
-    border: 1px solid rgba(from var(--slate-500) r g b / 0.8);
+    border: 1px solid var(--outline-color);
     border-radius: 4px;
     padding: var(--spacing-10) var(--spacing-20);
     cursor: pointer;
